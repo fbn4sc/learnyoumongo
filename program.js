@@ -5,13 +5,13 @@ mongo.connect("mongodb://localhost:27017/learnyoumongo", (err, client) => {
 
   const db = client.db("learnyoumongo");
 
-  db
-    .collection("parrots")
-    .find({ age: { $gt: parseInt(process.argv[2], 10) } })
-    .project({ name: true, age: true, _id: false })
-    .toArray((err, docs) => {
-      console.log(docs);
-    });
+  const myDoc = { firstName: process.argv[2], lastName: process.argv[3] };
+
+  db.collection("parrots").insert(myDoc, (err, data) => {
+    if (err) throw err;
+
+    console.log(JSON.stringify(myDoc));
+  });
 
   client.close();
 });
